@@ -4,6 +4,7 @@ module Lib
     , Requirements(..)
     , VersionRanges(..)
     , extractDependencies
+    , printPackage
     ) where
 
 import qualified Data.Text as T
@@ -20,16 +21,33 @@ import qualified Distribution.Types.Version as V
 import qualified Distribution.Types.VersionRange as V
 import qualified Distribution.Types.VersionRange.Internal as V
 import qualified Data.Map as M
+import Control.Monad (forM)
 
 data Package = Package
     { pName :: String
     , pRequirements :: Requirements
     } deriving (Show)
 
+printPackage :: Package -> IO ()
+printPackage package = do
+    putStrLn . pName $ package
+    putStrLn ""
+    printRequirements . pRequirements $ package
+
 type VersionRanges = Ranges V.Version
 
 data Requirements = Requirements (M.Map String VersionRanges)
     deriving (Show)
+
+printRequirements :: Requirements -> IO ()
+printRequirements (Requirements r) = do
+    putStrLn "Requirements:"
+    putStrLn ""
+    forM (M.toList r) $ \(name, ranges) -> do
+        putStr name
+        putStr " "
+        print ranges
+    return ()
 
 extractDependencies :: FilePath -> IO (Either T.Text Package)
 extractDependencies cabalFile = do

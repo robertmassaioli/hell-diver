@@ -47,9 +47,16 @@ executable hell-diver-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , bytestring
     , cmdargs
+    , directory
+    , filepath
     , hell-diver
+    , http-client
+    , http-client-tls
+    , tar
     , text
+    , zlib
   default-language: Haskell2010
 
 test-suite hell-diver-test

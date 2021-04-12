@@ -42,6 +42,13 @@ executables:
     - hell-diver
     - cmdargs
     - text
+    - directory
+    - filepath
+    - http-client
+    - http-client-tls
+    - tar
+    - zlib
+    - bytestring
 
 tests:
   hell-diver-test:
